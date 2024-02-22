@@ -1,0 +1,8 @@
+-------------------------------------------------------------------------------
+Test set: BSTTest
+-------------------------------------------------------------------------------
+Tests run: 4, Failures: 0, Errors: 1, Skipped: 0, Time elapsed: 0.023 s <<< FAILURE! - in BSTTest
+multipleElementInsert  Time elapsed: 0.007 s  <<< ERROR!
+java.lang.NullPointerException: Cannot read field "value" because "foundValue" is null
+	at BSTTest.multipleElementInsert(BSTTest.java:24)
+
