@@ -22,6 +22,32 @@ public class BinarySearchTreeDict<K extends Comparable<K>,V> implements ProjOneD
         }
     }
 
+    // Breadth First Search on Binary Tree
+    private class BFS<K> implements Iterator<K> {
+        private ListQueue<Node> queue;
+
+        public BFS(Node root) {
+            queue = new ListQueue<>();
+            if(root != null) {
+                queue.enqueue(root);
+            }
+        }
+
+        // returning true if the iterator has more elements to iterate through
+        @Override
+        public boolean hasNext() {
+            if (queue.isEmpty()){
+                return false;
+            }
+            return true;
+        }
+
+        @Override
+        public K next() {
+            return null;
+        }
+    }
+
     private boolean recursiveInsertion (Node current, K key, V value) {
         if (key.compareTo(current.key) < 0) {
             // go left
@@ -200,6 +226,6 @@ public class BinarySearchTreeDict<K extends Comparable<K>,V> implements ProjOneD
 
     @Override
     public Iterator<K> iterator() {
-        return null;
+        return new BFS<>(root);
     }
 }
