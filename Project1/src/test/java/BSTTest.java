@@ -65,19 +65,28 @@ public class BSTTest extends DictionaryTest {
         assertEquals(3, BST.getSize(), "Incorrect empty getSize behavior");
     }
 
-//    @Test
-//    void singleElementDelete () throws NullValueException {
-//        ProjOneDictionary<Integer, String> BST = newDictionary();
-//        BST.insert(6, "six");
-//
-//        assertTrue(BST.delete(6), "Incorrect single element delete behavior");
-//        assertFalse(BST.delete(8), "Incorrect single element delete behavior");
-//        assertEquals(0, BST.getSize(), "Incorrect single element delete behavior");
-//    }
+    @Test
+    void emptyDelete () {
+        ProjOneDictionary<Integer, String> BST = newDictionary();
+
+        assertFalse(BST.delete(7), "Incorrect multiple element delete");
+    }
+
+    @Test
+    void singleElementDelete () throws NullValueException {
+        ProjOneDictionary<Integer, String> BST = newDictionary();
+        BST.insert(6, "six");
+
+        assertTrue(BST.delete(6), "Incorrect single element delete behavior");
+        assertEquals(0, BST.getSize(), "Incorrect single element delete behavior");
+        assertNull(BST.find(6), "Incorrect single element delete behavior");
+        assertFalse(BST.delete(6), "Incorrect single element delete behavior");
+    }
 
 
     @Test
     void multipleElementDelete () throws NullValueException {
+        // deletes all elements
         ProjOneDictionary<Integer, String> BST = newDictionary();
         BST.insert(6, "six");
         BST.insert(4, "four");
@@ -86,6 +95,77 @@ public class BSTTest extends DictionaryTest {
         assertTrue(BST.delete(6), "Incorrect multiple element delete");
         assertTrue(BST.delete(4), "Incorrect multiple element delete");
         assertTrue(BST.delete(7), "Incorrect multiple element delete");
+
+        assertNull(BST.find(6), "Incorrect multiple element delete");
+        assertNull(BST.find(4), "Incorrect multiple element delete");
+        assertNull(BST.find(7), "Incorrect multiple element delete");
+
+        assertFalse(BST.delete(6), "Incorrect multiple element delete");
         assertFalse(BST.delete(4), "Incorrect multiple element delete");
+        assertFalse(BST.delete(7), "Incorrect multiple element delete");
+    }
+
+    @Test
+    void multipleElementDelete2 () throws NullValueException {
+        // big tree and deleting all elements
+        ProjOneDictionary<Integer, String> BST = newDictionary();
+        BST.insert(100, "one hundred");
+        BST.insert(50, "fifty");
+        BST.insert(150, "one hundred fifty");
+        BST.insert(40, "forty");
+        BST.insert(41, "forty one");
+        BST.insert(140, "one hundred forty");
+        BST.insert(160, "one hundred sixty");
+        BST.insert(139, "one hundred thirty nine");
+        BST.insert(141, "one hundred forty one");
+        BST.insert(151, "one hundred fifty one");
+        BST.insert(161, "one hundred sixty one");
+
+        assertTrue(BST.delete(100), "Incorrect multiple element delete 2");
+        assertTrue(BST.delete(150), "Incorrect multiple element delete 2");
+        assertTrue(BST.delete(141), "Incorrect multiple element delete 2");
+        assertTrue(BST.delete(139), "Incorrect multiple element delete");
+        assertTrue(BST.delete(160), "Incorrect multiple element delete");
+        assertTrue(BST.delete(40), "Incorrect multiple element delete");
+        assertTrue(BST.delete(41), "Incorrect multiple element delete");
+        assertTrue(BST.delete(50), "Incorrect multiple element delete");
+        assertTrue(BST.delete(140), "Incorrect multiple element delete");
+        assertTrue(BST.delete(161), "Incorrect multiple element delete");
+        assertTrue(BST.delete(151), "Incorrect multiple element delete");
+
+
+
+
+    }
+
+    @Test
+
+    void multipleElementDelete3 () throws NullValueException {
+        // big tree only deleting some elements
+        ProjOneDictionary<Integer, String> BST = newDictionary();
+        BST.insert(100, "one hundred");
+        BST.insert(50, "fifty");
+        BST.insert(150, "one hundred fifty");
+        BST.insert(40, "forty");
+        BST.insert(41, "forty one");
+        BST.insert(140, "one hundred forty");
+        BST.insert(160, "one hundred sixty");
+        BST.insert(139, "one hundred thirty nine");
+        BST.insert(141, "one hundred forty one");
+        BST.insert(151, "one hundred fifty one");
+        BST.insert(161, "one hundred sixty one");
+
+        assertTrue(BST.delete(139), "Incorrect multiple element delete");
+        assertTrue(BST.delete(160), "Incorrect multiple element delete");
+        assertTrue(BST.delete(100), "Incorrect multiple element delete");
+
+        assertNull(BST.find(139), "Incorrect multiple element delete");
+        assertNull(BST.find(160), "Incorrect multiple element delete");
+        assertNull(BST.find(100), "Incorrect multiple element delete");
+
+        assertEquals("one hundred fifty one", BST.find(151), "Incorrect multiple element delete");
+        assertEquals("forty", BST.find(40), "Incorrect multiple element delete");
+        assertEquals("fifty", BST.find(50), "Incorrect multiple element delete");
+
     }
 }

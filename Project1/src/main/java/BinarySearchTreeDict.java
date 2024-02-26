@@ -2,7 +2,6 @@ import java.util.Iterator;
 
 public class BinarySearchTreeDict<K extends Comparable<K>,V> implements ProjOneDictionary<K,V> {
     private int size = 0;
-    private boolean isDuplicate = false;
     private Node root = null;
 
     private class Node {
@@ -32,6 +31,7 @@ public class BinarySearchTreeDict<K extends Comparable<K>,V> implements ProjOneD
             }
             else {
                 current.left = new Node(key, value);
+                current.left.parent = current;
                 size++;
                 return false;
             }
@@ -43,6 +43,7 @@ public class BinarySearchTreeDict<K extends Comparable<K>,V> implements ProjOneD
             }
             else {
                 current.right = new Node(key, value);
+                current.right.parent = current;
                 size++;
                 return false;
             }
@@ -106,37 +107,44 @@ public class BinarySearchTreeDict<K extends Comparable<K>,V> implements ProjOneD
             System.out.println("KEY IS LESS THAN CURR SO GO LEFT");
             return recursiveDelete(curr.left, key);
         }
+
         // key found!!!
-        else{
-            System.out.println("Key found!");
+        else {
 
             // delete if leaf node
             if (curr.right == null && curr.left == null){
-                System.out.println("deleting leaf node!");
-                curr.key = null;
-                curr.value = null;
+
+                if (curr.parent != null) {
+                    //If the parent right is the same as the current node then delete
+                    if (curr.parent.right == curr) {
+                        curr.parent.right = null;
+                    }
+                    else if (curr.parent.left == curr) {
+                        curr.parent.left = null;
+                    }
+                }
+                else {
+                    root = null;
+                }
+
                 size--;
-                //return true;
+                return true;
             }
             // if curr has a right child
-            else if (curr.right != null){
-                System.out.println("Key has right child!");
+            else if (curr.right != null) {
                 curr.key = successor(curr).key;
                 curr.value = successor(curr).value;
-                //return recursiveDelete(curr.right, key);
-                return true;
+                return recursiveDelete(curr.right, curr.key);
             }
             // if curr has left child
-            else{
-                System.out.println("Key has left Child");
+            else {
                 curr.key = predecessor(curr).key;
                 curr.value = predecessor(curr).value;
-                //return recursiveDelete(curr.left, key);
-                return true;
+                return recursiveDelete(curr.left, curr.key);
             }
         }
 
-        return true;
+        //return true;
     }
 
     @Override
@@ -148,6 +156,7 @@ public class BinarySearchTreeDict<K extends Comparable<K>,V> implements ProjOneD
 
         if (root == null) {
             root = new Node(key, value);
+            root.parent = null;
             size++;
             return false;
         }
@@ -170,14 +179,11 @@ public class BinarySearchTreeDict<K extends Comparable<K>,V> implements ProjOneD
 
     @Override
     public boolean delete(K key) {
-        boolean isDeleted = recursiveDelete(root, key);
-        System.out.println("Root Key after delete " +root.key);
-        System.out.println("Root value after Delete " + root.value);
-        System.out.println("Root left key: " + root.left.key);
-        System.out.println("Root left value: " + root.left.value);
-        System.out.println("Root righ keyt: " + root.right.key);
-        System.out.println("Root right value: " +root.right.value);
+        if (root == null){
+            return false;
+        }
 
+        boolean isDeleted = recursiveDelete(root, key);
 
         if (isDeleted) {
             return true;
