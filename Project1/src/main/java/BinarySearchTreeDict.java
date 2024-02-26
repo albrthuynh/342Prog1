@@ -28,7 +28,7 @@ public class BinarySearchTreeDict<K extends Comparable<K>,V> implements ProjOneD
 
         public BFS(Node root) {
             queue = new ListQueue<>();
-            if(root != null) {
+            if (root != null) {
                 queue.enqueue(root);
             }
         }
@@ -44,7 +44,19 @@ public class BinarySearchTreeDict<K extends Comparable<K>,V> implements ProjOneD
 
         @Override
         public K next() {
-            return null;
+            Node toKey = queue.dequeue();
+
+            // if left key exists then add left key to the queue
+            if(toKey.left != null) {
+                queue.enqueue(toKey.left);
+            }
+
+            // if right key exists then add right key to the queue
+            if(toKey.right != null) {
+                queue.enqueue(toKey.right);
+            }
+
+            return (K) toKey.key;
         }
     }
 
