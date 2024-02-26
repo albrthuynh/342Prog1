@@ -1,4 +1,8 @@
 -------------------------------------------------------------------------------
 Test set: HashMapTest
 -------------------------------------------------------------------------------
-Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0 s - in HashMapTest
+Tests run: 3, Failures: 1, Errors: 0, Skipped: 0, Time elapsed: 0.001 s <<< FAILURE! - in HashMapTest
+singleElementInsert  Time elapsed: 0.001 s  <<< FAILURE!
+org.opentest4j.AssertionFailedError: Incorrect single element insert behavior ==> expected: <three> but was: <null>
+	at HashMapTest.singleElementInsert(HashMapTest.java:16)
+

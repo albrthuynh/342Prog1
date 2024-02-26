@@ -94,17 +94,17 @@ public class BinarySearchTreeDict<K extends Comparable<K>,V> implements ProjOneD
 
         // key not found
         if (curr == null) {
-            System.out.println("KEY WASNT FOUND");
+            //System.out.println("KEY WASNT FOUND");
             return false;
         }
 
         // finding key
         if (key.compareTo(curr.key) > 0) {
-            System.out.println("KEY IS GREATER THAN CURR SO GO RIGHT");
+            //System.out.println("KEY IS GREATER THAN CURR SO GO RIGHT");
             return recursiveDelete(curr.right, key);
         }
         else if (key.compareTo(curr.key) < 0) {
-            System.out.println("KEY IS LESS THAN CURR SO GO LEFT");
+            //System.out.println("KEY IS LESS THAN CURR SO GO LEFT");
             return recursiveDelete(curr.left, key);
         }
 

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report.xsd" name="HashMapTest" time="0" tests="2" errors="0" skipped="0" failures="0">
+<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report.xsd" name="HashMapTest" time="0.001" tests="3" errors="0" skipped="0" failures="1">
   <properties>
     <property name="java.specification.version" value="21"/>
     <property name="sun.jnu.encoding" value="UTF-8"/>
@@ -12,7 +12,7 @@
     <property name="sun.java.launcher" value="SUN_STANDARD"/>
     <property name="user.country" value="US"/>
     <property name="sun.boot.library.path" value="/Users/kperez/Library/Java/JavaVirtualMachines/openjdk-21.0.2/Contents/Home/lib"/>
-    <property name="sun.java.command" value="/Users/kperez/CS Classes/CS 342/Project1/target/surefire/surefirebooter17815821565659929881.jar /Users/kperez/CS Classes/CS 342/Project1/target/surefire 2024-02-22T14-13-55_795-jvmRun1 surefire14748108703718823179tmp surefire_0718560618591285426tmp"/>
+    <property name="sun.java.command" value="/Users/kperez/CS Classes/CS 342/Project1/target/surefire/surefirebooter18307327159244755703.jar /Users/kperez/CS Classes/CS 342/Project1/target/surefire 2024-02-25T21-58-50_223-jvmRun1 surefire16051986623900035518tmp surefire_014885327122014577050tmp"/>
     <property name="http.nonProxyHosts" value="local|*.local|169.254/16|*.169.254/16"/>
     <property name="jdk.debug" value="release"/>
     <property name="surefire.test.class.path" value="/Users/kperez/CS Classes/CS 342/Project1/target/test-classes:/Users/kperez/CS Classes/CS 342/Project1/target/classes:/Users/kperez/.m2/repository/org/junit/jupiter/junit-jupiter/5.10.0/junit-jupiter-5.10.0.jar:/Users/kperez/.m2/repository/org/junit/jupiter/junit-jupiter-api/5.10.0/junit-jupiter-api-5.10.0.jar:/Users/kperez/.m2/repository/org/opentest4j/opentest4j/1.3.0/opentest4j-1.3.0.jar:/Users/kperez/.m2/repository/org/junit/platform/junit-platform-commons/1.10.0/junit-platform-commons-1.10.0.jar:/Users/kperez/.m2/repository/org/apiguardian/apiguardian-api/1.1.2/apiguardian-api-1.1.2.jar:/Users/kperez/.m2/repository/org/junit/jupiter/junit-jupiter-params/5.10.0/junit-jupiter-params-5.10.0.jar:/Users/kperez/.m2/repository/org/junit/jupiter/junit-jupiter-engine/5.10.0/junit-jupiter-engine-5.10.0.jar:/Users/kperez/.m2/repository/org/junit/platform/junit-platform-engine/1.10.0/junit-platform-engine-1.10.0.jar:"/>
@@ -29,7 +29,7 @@
     <property name="java.vm.specification.vendor" value="Oracle Corporation"/>
     <property name="java.specification.name" value="Java Platform API Specification"/>
     <property name="apple.awt.application.name" value="ForkedBooter"/>
-    <property name="surefire.real.class.path" value="/Users/kperez/CS Classes/CS 342/Project1/target/surefire/surefirebooter17815821565659929881.jar"/>
+    <property name="surefire.real.class.path" value="/Users/kperez/CS Classes/CS 342/Project1/target/surefire/surefirebooter18307327159244755703.jar"/>
     <property name="sun.management.compiler" value="HotSpot 64-Bit Tiered Compilers"/>
     <property name="ftp.nonProxyHosts" value="local|*.local|169.254/16|*.169.254/16"/>
     <property name="java.runtime.version" value="21.0.2+13-58"/>
@@ -60,4 +60,11 @@
   </properties>
   <testcase name="testSize" classname="HashMapTest" time="0"/>
   <testcase name="testNullValue" classname="HashMapTest" time="0"/>
+  <testcase name="singleElementInsert" classname="HashMapTest" time="0.001">
+    <failure message="Incorrect single element insert behavior ==&gt; expected: &lt;three&gt; but was: &lt;null&gt;" type="org.opentest4j.AssertionFailedError"><![CDATA[org.opentest4j.AssertionFailedError: Incorrect single element insert behavior ==> expected: <three> but was: <null>
+	at HashMapTest.singleElementInsert(HashMapTest.java:16)
+]]></failure>
+    <system-out><![CDATA[Result of indexToBePlaced: 3
+]]></system-out>
+  </testcase>
 </testsuite>

@@ -3,3 +3,4 @@ BinarySearchTreeDict.class
 ProjOneDictionary.class
 NullValueException.class
 HashMapDict.class
+HashMapDict$Node.class
