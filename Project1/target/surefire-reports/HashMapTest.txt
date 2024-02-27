@@ -1,16 +1,13 @@
 -------------------------------------------------------------------------------
 Test set: HashMapTest
 -------------------------------------------------------------------------------
-Tests run: 13, Failures: 2, Errors: 2, Skipped: 0, Time elapsed: 0.007 s <<< FAILURE! - in HashMapTest
-multipleElementDelete  Time elapsed: 0 s  <<< FAILURE!
+Tests run: 13, Failures: 3, Errors: 0, Skipped: 0, Time elapsed: 0.008 s <<< FAILURE! - in HashMapTest
+multipleElementDelete2  Time elapsed: 0.004 s  <<< FAILURE!
 org.opentest4j.AssertionFailedError: Incorrect multiple element delete ==> expected: <true> but was: <false>
 
-multipleElementDelete2  Time elapsed: 0.001 s  <<< ERROR!
-java.lang.ArrayIndexOutOfBoundsException: Index 10 out of bounds for length 10
-
-multipleElementDelete3  Time elapsed: 0 s  <<< ERROR!
-java.lang.ArrayIndexOutOfBoundsException: Index 10 out of bounds for length 10
+multipleElementDelete3  Time elapsed: 0.001 s  <<< FAILURE!
+org.opentest4j.AssertionFailedError: Incorrect multiple element delete ==> expected: <true> but was: <false>
 
 singleElementDelete  Time elapsed: 0 s  <<< FAILURE!
-org.opentest4j.AssertionFailedError: Incorrect single element delete behavior ==> expected: <true> but was: <false>
+org.opentest4j.AssertionFailedError: Incorrect single element delete behavior ==> expected: <0> but was: <1>
 

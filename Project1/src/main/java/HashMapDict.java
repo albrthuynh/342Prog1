@@ -2,41 +2,45 @@ import java.util.Iterator;
 
 public class HashMapDict<K,V> implements ProjOneDictionary<K,V> {
     private int currentSize = 10;
-    private Node<K,V>[] map = new Node[currentSize];
+    private Node<K, V>[] map = new Node[currentSize];
     private int size = 0;
 
-    private class Node <K,V> {
+    private class Node<K, V> {
         K key;
         V value;
 
-        Node (K newKey, V newValue) {
+        Node(K newKey, V newValue) {
             super();
             key = newKey;
             value = newValue;
         }
     }
 
-    private void resizeMap (Node<K,V>[] map, int currentSize) {
-        currentSize = currentSize * 2;
-        Node<K,V> [] tempMap = new Node[currentSize];
+    private void resizeMap(Node<K, V>[] map, int currentSize) {
+        int newSize = currentSize * 2;
+        Node<K, V>[] tempMap = new Node[newSize];
+
 
         for (int i = 0; i < currentSize; i++) {
             if (map[i] == null) {
                 continue;
             }
-            Node<K,V> nodeToInsert = map[i];
+            Node<K, V> nodeToInsert = map[i];
             tempMap[i] = nodeToInsert;
         }
 
-        map = tempMap;
+        this.map = tempMap;
+        this.currentSize = newSize;
     }
 
 
     @Override
     public boolean insert(K key, V value) throws NullValueException {
-        if (value == null) {throw new NullValueException();}
+        if (value == null) {
+            throw new NullValueException();
+        }
 
-        Node <K,V> nodeToInsert = new Node(key, value);
+        Node<K, V> nodeToInsert = new Node(key, value);
 
         int indexToBePlaced = key.hashCode() % map.length; // finds the index where Node is to be placed
         System.out.println("Result of indexToBePlaced: " + indexToBePlaced);
@@ -46,8 +50,12 @@ public class HashMapDict<K,V> implements ProjOneDictionary<K,V> {
 
         // works without resizing so far
 
+        System.out.println("Before the insert if there is already an element");
+
         int i = indexToBePlaced; // checking if key to be inserted already exists
-        while (map[i] != null) {
+//        if (i < currentSize) {
+        while (i < currentSize && map[i] != null) {
+
             if (map[i].key.equals(key)) {
                 map[i].value = value;
                 System.out.println("Result of value after insertion: " + map[indexToBePlaced].value);
@@ -55,12 +63,20 @@ public class HashMapDict<K,V> implements ProjOneDictionary<K,V> {
             }
             i++; //= (i + 1) % currentSize;
         }
+//        }
+//        while (map[i] != null && i < currentSize) {
+//            if (map[i].key.equals(key)) {
+//                map[i].value = value;
+//                System.out.println("Result of value after insertion: " + map[indexToBePlaced].value);
+//                return true;
+//            }
+//            i++; //= (i + 1) % currentSize;
+//        }
 
         if (map[indexToBePlaced] == null) {
             map[indexToBePlaced] = nodeToInsert;
             size++;
-        }
-        else {
+        } else {
             // COLLISION!! LINEAR PROBING!!!
             i = 1;
             while (map[indexToBePlaced] != null) {
@@ -72,8 +88,16 @@ public class HashMapDict<K,V> implements ProjOneDictionary<K,V> {
                 // finally set the old one to be equal to the new one
                 // do this is in a separate function that way this one doesn't get too long
 
-                if (indexToBePlaced == map.length) {
+                System.out.println(indexToBePlaced);
+                System.out.println(map.length);
+//                System.exit(0);
+                if (indexToBePlaced + 1 == map.length) {
+                    System.out.println("going to resize");
                     resizeMap(map, currentSize);
+                    System.out.println("YELLO " + currentSize);
+                    //System.exit(0);
+                    break;
+
                 }
                 i++;
             }
@@ -89,19 +113,38 @@ public class HashMapDict<K,V> implements ProjOneDictionary<K,V> {
     @Override
     public V find(K key) {
 
-        int i = key.hashCode() % map.length;
-        while (map[i] != null) {
-            if (map[i].key.equals(key)) {
-                return map[i].value;
+        for (int i = 0; i < currentSize; i++) {
+            if (map[i] != null) {
+                if (map[i].key.equals(key)) {
+                    return map[i].value;
+                }
             }
-            i++;
         }
+
+//        int i = key.hashCode() % map.length;
+//        while (i < currentSize && map[i] != null) {
+//            if (map[i].key.equals(key)) {
+//                return map[i].value;
+//            }
+//            i++;
+//        }
 
         return null;
     }
 
+    // return true when there is an element found that can be deleted
     @Override
     public boolean delete(K key) {
+
+        for (int i = 0; i < currentSize; i++) {
+            if (map[i] != null) {
+                if (map[i].key.equals(key)) {
+                    map[i] = null;
+                    return true;
+                }
+            }
+
+        }
         return false;
     }
 
