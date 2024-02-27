@@ -32,7 +32,8 @@ public class ListQueue<E> implements Queue<E>{
             back = front;
             size = 1;
             return;
-        } else {
+        }
+        else {
             back.next = new Node(toAdd);
             back = back.next;
             size++;
