@@ -95,29 +95,38 @@ public class HashMapDict<K,V> implements ProjOneDictionary<K,V> {
                     System.out.println("going to resize");
                     resizeMap(map, currentSize);
                     System.out.println("YELLO " + currentSize);
-                    //System.exit(0);
-                    break;
-
+                    System.out.println("Index to be placed after resziing: " + indexToBePlaced);
                 }
                 i++;
             }
 
+            //System.out.println("Index to be placed after resziing: " + indexToBePlaced);
             map[indexToBePlaced] = nodeToInsert;
             size++;
         }
 
         System.out.println("Result of value after insertion: " + map[indexToBePlaced].value);
+//
+//        for (int j = 0; j < currentSize; j++) {
+//            if (map[j] != null) {
+//                System.out.println("Index: " + j + "Key: " + map[j].key);
+//            }
+//
+//        }
         return false;
     }
 
     @Override
     public V find(K key) {
 
+//        int potentialIndex = key.hashCode() % currentSize;
+//        if (map[potentialIndex] != null && map[potentialIndex].key.equals(key)) {
+//            return map[potentialIndex].value;
+//        }
+
         for (int i = 0; i < currentSize; i++) {
-            if (map[i] != null) {
-                if (map[i].key.equals(key)) {
-                    return map[i].value;
-                }
+            if (map[i] != null && map[i].key.equals(key)) {
+                return map[i].value;
             }
         }
 
@@ -136,15 +145,25 @@ public class HashMapDict<K,V> implements ProjOneDictionary<K,V> {
     @Override
     public boolean delete(K key) {
 
+        // added this for faster retrieval to mimic that of an actual hash map
+//        int potentialIndex = key.hashCode() % currentSize;
+//        if (map[potentialIndex] != null && map[potentialIndex].key.equals(key)) {
+//            map[potentialIndex] = null;
+//            size--;
+//            return true;
+//        }
+
         for (int i = 0; i < currentSize; i++) {
             if (map[i] != null) {
                 if (map[i].key.equals(key)) {
                     map[i] = null;
+                    size--;
                     return true;
                 }
             }
 
         }
+
         return false;
     }
 

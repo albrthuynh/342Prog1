@@ -9,6 +9,8 @@ public class HashMapTest extends DictionaryTest{
         return new HashMapDict<Integer,String>();
     }
 
+    // should test for reszing and iterator
+
     @Test
     void singleElementInsert() throws NullValueException {
         ProjOneDictionary<Integer, String> HASHMAP = newDictionary();
@@ -16,7 +18,6 @@ public class HashMapTest extends DictionaryTest{
         assertFalse(HASHMAP.insert(12, "twelve"), "Incorrect single insert return statement");
         assertFalse(HASHMAP.insert(3, "three"), "Incorrect single insert return statement");
         assertFalse(HASHMAP.insert(5, "five"), "Incorrect single insert return statement");
-        //assertFalse(HASHMAP.insert(12, ""), "Incorrect single insert return statement");
         assertFalse(HASHMAP.insert(13, "thirteen"), "Incorrect single insert return statement");
         assertFalse(HASHMAP.insert(4, "four"), "Incorrect single insert return statement");
         assertFalse(HASHMAP.insert(14, "fourteen"), "Incorrect single insert return statement");
