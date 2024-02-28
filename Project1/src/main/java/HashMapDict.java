@@ -16,6 +16,63 @@ public class HashMapDict<K,V> implements ProjOneDictionary<K,V> {
         }
     }
 
+    private class HashIterator<K> implements Iterator<K> {
+
+        private int currIndex = 0;
+        private Node<K, V> curr;
+        public HashIterator(Node<K,V>[] map){
+            for(int i = currIndex; i < map.length; i++){
+                if(map[i] == null){
+                    currIndex++;
+                }
+                else{
+                    break;
+                }
+            }
+
+            if(currIndex < map.length){
+                curr = map[currIndex];
+            }
+        }
+
+        @Override
+        public boolean hasNext() {
+            if(curr == null){
+                return false;
+            }
+            return true;
+        }
+
+        @Override
+        public K next() {
+            K key = curr.key;
+
+            // go to next element
+            currIndex++;
+            // iterate to the next non-null entry
+            // if currIndex is not less than the length this means it is out of range and there is no more
+            // indexes to go through
+            for(int i = currIndex; i < map.length; i++){
+                if(map[i] == null) {
+                    currIndex++;
+                }
+                else{
+                    break;
+                }
+            }
+
+            // if currIndex is less than the length then make curr equal the to value of currIndex
+            if(currIndex < map.length){
+                curr = (Node<K, V>) map[currIndex];
+            }
+            else{
+                curr = null;
+            }
+
+            return key;
+        }
+    }
+
     private void resizeMap(Node<K, V>[] map, int currentSize) {
         int newSize = currentSize * 2;
         Node<K, V>[] tempMap = new Node[newSize];
@@ -50,7 +107,7 @@ public class HashMapDict<K,V> implements ProjOneDictionary<K,V> {
 
         // works without resizing so far
 
-        System.out.println("Before the insert if there is already an element");
+//        System.out.println("Before the insert if there is already an element");
 
         int i = indexToBePlaced; // checking if key to be inserted already exists
 //        if (i < currentSize) {
@@ -58,7 +115,7 @@ public class HashMapDict<K,V> implements ProjOneDictionary<K,V> {
 
             if (map[i].key.equals(key)) {
                 map[i].value = value;
-                System.out.println("Result of value after insertion: " + map[indexToBePlaced].value);
+//                System.out.println("Result of value after insertion: " + map[indexToBePlaced].value);
                 return true;
             }
             i++; //= (i + 1) % currentSize;
@@ -81,52 +138,46 @@ public class HashMapDict<K,V> implements ProjOneDictionary<K,V> {
             i = 1;
             while (map[indexToBePlaced] != null) {
                 indexToBePlaced = (key.hashCode() + i) % map.length; // ex. if key being inserted is 12 which should go at index 2 but index two but index 2 is full go to next available index
-                System.out.println("Result of indexToBePlaced at collision: " + indexToBePlaced);
+//                System.out.println("Result of indexToBePlaced at collision: " + indexToBePlaced);
+
                 // resize will occur
                 // here check if indexToBePlaced is bigger than currentSize then double it
                 // create new hashmap of that size and copy everything from the first map to the new one
                 // finally set the old one to be equal to the new one
                 // do this is in a separate function that way this one doesn't get too long
 
-                System.out.println(indexToBePlaced);
-                System.out.println(map.length);
+//                System.out.println(indexToBePlaced);
+//                System.out.println(map.length);
 //                System.exit(0);
+
+                // resizing once the hashmap has run out of space
                 if (indexToBePlaced + 1 == map.length) {
-                    System.out.println("going to resize");
+//                    System.out.println("going to resize");
                     resizeMap(map, currentSize);
-                    System.out.println("YELLO " + currentSize);
-                    System.out.println("Index to be placed after resziing: " + indexToBePlaced);
+//                    System.out.println("YELLO " + currentSize);
+                    //System.exit(0);
+//                    break;
+
                 }
                 i++;
             }
 
-            //System.out.println("Index to be placed after resziing: " + indexToBePlaced);
             map[indexToBePlaced] = nodeToInsert;
             size++;
         }
 
-        System.out.println("Result of value after insertion: " + map[indexToBePlaced].value);
-//
-//        for (int j = 0; j < currentSize; j++) {
-//            if (map[j] != null) {
-//                System.out.println("Index: " + j + "Key: " + map[j].key);
-//            }
-//
-//        }
+//        System.out.println("Result of value after insertion: " + map[indexToBePlaced].value);
         return false;
     }
 
     @Override
     public V find(K key) {
 
-//        int potentialIndex = key.hashCode() % currentSize;
-//        if (map[potentialIndex] != null && map[potentialIndex].key.equals(key)) {
-//            return map[potentialIndex].value;
-//        }
-
         for (int i = 0; i < currentSize; i++) {
-            if (map[i] != null && map[i].key.equals(key)) {
-                return map[i].value;
+            if (map[i] != null) {
+                if (map[i].key.equals(key)) {
+                    return map[i].value;
+                }
             }
         }
 
@@ -144,15 +195,6 @@ public class HashMapDict<K,V> implements ProjOneDictionary<K,V> {
     // return true when there is an element found that can be deleted
     @Override
     public boolean delete(K key) {
-
-        // added this for faster retrieval to mimic that of an actual hash map
-//        int potentialIndex = key.hashCode() % currentSize;
-//        if (map[potentialIndex] != null && map[potentialIndex].key.equals(key)) {
-//            map[potentialIndex] = null;
-//            size--;
-//            return true;
-//        }
-
         for (int i = 0; i < currentSize; i++) {
             if (map[i] != null) {
                 if (map[i].key.equals(key)) {
@@ -161,9 +203,7 @@ public class HashMapDict<K,V> implements ProjOneDictionary<K,V> {
                     return true;
                 }
             }
-
         }
-
         return false;
     }
 
@@ -174,6 +214,6 @@ public class HashMapDict<K,V> implements ProjOneDictionary<K,V> {
 
     @Override
     public Iterator<K> iterator() {
-        return null;
+        return new HashIterator<>(map);
     }
 }

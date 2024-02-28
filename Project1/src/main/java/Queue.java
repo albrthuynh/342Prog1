@@ -18,4 +18,5 @@ public interface Queue<E> {
     public E front();
 
     public boolean isEmpty();
+
 }

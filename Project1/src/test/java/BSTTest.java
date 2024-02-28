@@ -27,6 +27,7 @@ public class BSTTest extends DictionaryTest {
 
         assertTrue(iter.hasNext(), "Incorrect single element hasNext Iterator behavior");
         assertEquals(3,iter.next(), "Incorrect single element iterator behavior");
+        assertFalse(iter.hasNext(), "Incorrect single element hasNext Iterator behavior");
     }
 
     @Test

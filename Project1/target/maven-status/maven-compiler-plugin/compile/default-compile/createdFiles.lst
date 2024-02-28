@@ -8,3 +8,4 @@ BinarySearchTreeDict.class
 NullValueException.class
 ListQueue.class
 Queue.class
+HashMapDict$HashIterator.class

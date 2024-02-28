@@ -47,12 +47,12 @@ public class BinarySearchTreeDict<K extends Comparable<K>,V> implements ProjOneD
             Node toKey = queue.dequeue();
 
             // if left key exists then add left key to the queue
-            if (toKey.left != null) {
+            if(toKey.left != null) {
                 queue.enqueue(toKey.left);
             }
 
             // if right key exists then add right key to the queue
-            if (toKey.right != null) {
+            if(toKey.right != null) {
                 queue.enqueue(toKey.right);
             }
 
@@ -105,7 +105,7 @@ public class BinarySearchTreeDict<K extends Comparable<K>,V> implements ProjOneD
             return recursiveSearch(current.left, key);
         }
         else {
-            return recursiveSearch(current.right, key);
+             return recursiveSearch(current.right, key);
         }
     }
 
@@ -114,10 +114,10 @@ public class BinarySearchTreeDict<K extends Comparable<K>,V> implements ProjOneD
         while (root.left != null) {
             root = root.left;
         }
-
+        
         return root;
     }
-
+    
     private Node predecessor(Node root){
         root = root.left;
         while (root.right != null){
@@ -207,7 +207,7 @@ public class BinarySearchTreeDict<K extends Comparable<K>,V> implements ProjOneD
     @Override
     public V find(K key) {
         Node foundValue = recursiveSearch(root, key);
-
+        
         if (foundValue != null) {
             return foundValue.value;
         }
