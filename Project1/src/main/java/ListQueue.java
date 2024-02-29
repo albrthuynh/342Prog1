@@ -1,3 +1,12 @@
+/****************************
+ * Program 1: Dictionary
+ * <p>
+ * Course: CS 342, Spring 2024
+ * System: macOS using IntelliJ
+ * Starter Code Author: Evan McCarty
+ * <p>
+ * ***************************/
+
 public class ListQueue<E> implements Queue<E>{
     private class Node{
         E value;
@@ -8,7 +17,6 @@ public class ListQueue<E> implements Queue<E>{
         }
     }
 
-    //public static E test;
     private Node front;
     private Node back;
 
@@ -32,7 +40,8 @@ public class ListQueue<E> implements Queue<E>{
             back = front;
             size = 1;
             return;
-        } else {
+        }
+        else {
             back.next = new Node(toAdd);
             back = back.next;
             size++;

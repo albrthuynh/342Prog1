@@ -1,3 +1,11 @@
+/****************************
+ * Program 1: Dictionary
+ * <p>
+ * Course: CS 342, Spring 2024
+ * System: macOS using IntelliJ
+ * Starter Code Author: Evan McCarty
+ * <p>
+ * ***************************/
 public interface Queue<E> {
     /**
      * this method adds the element toAdd to the back of the queue
@@ -18,5 +26,4 @@ public interface Queue<E> {
     public E front();
 
     public boolean isEmpty();
-
 }
