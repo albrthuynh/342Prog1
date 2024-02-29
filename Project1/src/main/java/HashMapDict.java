@@ -1,3 +1,13 @@
+/****************************
+ * Program 1: Dictionary
+ * <p>
+ * Course: CS 342, Spring 2024
+ * System: macOS using IntelliJ
+ * Starter Code Author: Evan McCarty
+ * Student Author: Albert Huynh & Karina Perez
+ * <p>
+ * ***************************/
+
 import java.util.Iterator;
 
 public class HashMapDict<K,V> implements ProjOneDictionary<K,V> {
@@ -17,29 +27,36 @@ public class HashMapDict<K,V> implements ProjOneDictionary<K,V> {
     }
 
     private class HashIterator<K> implements Iterator<K> {
-
         private int currIndex = 0;
         private Node<K, V> curr;
         public HashIterator(Node<K,V>[] map){
+
+            // loops through the hashmap until it hits a non-null index
             for(int i = currIndex; i < map.length; i++){
-                if(map[i] == null){
+                if (map[i] == null){
                     currIndex++;
                 }
-                else{
+                else {
                     break;
                 }
             }
 
-            if(currIndex < map.length){
+            // once that non-null index is found set curr to that node
+            // ensures it doesn't go out of bounds of the hashmap
+            if (currIndex < map.length){
                 curr = map[currIndex];
             }
         }
 
         @Override
         public boolean hasNext() {
-            if(curr == null){
+
+            // returns true if the curr node isn't null (meaning there is a next element)
+            // returns false otherwise
+            if (curr == null){
                 return false;
             }
+
             return true;
         }
 
@@ -49,23 +66,24 @@ public class HashMapDict<K,V> implements ProjOneDictionary<K,V> {
 
             // go to next element
             currIndex++;
+
             // iterate to the next non-null entry
             // if currIndex is not less than the length this means it is out of range and there is no more
             // indexes to go through
-            for(int i = currIndex; i < map.length; i++){
+            for (int i = currIndex; i < map.length; i++){
                 if(map[i] == null) {
                     currIndex++;
                 }
-                else{
+                else {
                     break;
                 }
             }
 
             // if currIndex is less than the length then make curr equal the to value of currIndex
-            if(currIndex < map.length){
+            if (currIndex < map.length){
                 curr = (Node<K, V>) map[currIndex];
             }
-            else{
+            else {
                 curr = null;
             }
 
@@ -73,11 +91,13 @@ public class HashMapDict<K,V> implements ProjOneDictionary<K,V> {
         }
     }
 
+    // resizeMap takes in the hashmap and its current size and resizes the hashmap to accomodate the insertion of multiple elements
+    // each time it is resized, the size doubles
     private void resizeMap(Node<K, V>[] map, int currentSize) {
         int newSize = currentSize * 2;
-        Node<K, V>[] tempMap = new Node[newSize];
+        Node<K, V>[] tempMap = new Node[newSize]; // a temporary map that is bigger than the old map where the old map's contents will be dumped into
 
-
+        // loops through old map at each index at copies its contents into tempMap
         for (int i = 0; i < currentSize; i++) {
             if (map[i] == null) {
                 continue;
@@ -86,7 +106,7 @@ public class HashMapDict<K,V> implements ProjOneDictionary<K,V> {
             tempMap[i] = nodeToInsert;
         }
 
-        this.map = tempMap;
+        this.map = tempMap; // the old map is then set to now be the new map with a bigger size aka tempMap
         this.currentSize = newSize;
     }
 
@@ -99,102 +119,68 @@ public class HashMapDict<K,V> implements ProjOneDictionary<K,V> {
 
         Node<K, V> nodeToInsert = new Node(key, value);
 
-        int indexToBePlaced = key.hashCode() % map.length; // finds the index where Node is to be placed
-        System.out.println("Result of indexToBePlaced: " + indexToBePlaced);
+        int indexToBePlaced = key.hashCode() % map.length; // finds the index where Node is to be placed in the hashmap
 
-        // REMEMBER TO RESIZING
-
-
-        // works without resizing so far
-
-//        System.out.println("Before the insert if there is already an element");
-
-        int i = indexToBePlaced; // checking if key to be inserted already exists
-//        if (i < currentSize) {
+        // goes through the map and checks if the key to be inserted is a duplicate or not
+        int i = indexToBePlaced;
         while (i < currentSize && map[i] != null) {
-
             if (map[i].key.equals(key)) {
                 map[i].value = value;
-//                System.out.println("Result of value after insertion: " + map[indexToBePlaced].value);
                 return true;
             }
-            i++; //= (i + 1) % currentSize;
+            i++;
         }
-//        }
-//        while (map[i] != null && i < currentSize) {
-//            if (map[i].key.equals(key)) {
-//                map[i].value = value;
-//                System.out.println("Result of value after insertion: " + map[indexToBePlaced].value);
-//                return true;
-//            }
-//            i++; //= (i + 1) % currentSize;
-//        }
 
+        // inserts node if its hash index is null
         if (map[indexToBePlaced] == null) {
             map[indexToBePlaced] = nodeToInsert;
             size++;
-        } else {
-            // COLLISION!! LINEAR PROBING!!!
+        }
+
+        // node's hash index isn't null so a collision has occurred
+        // the node will be placed in the next available index
+        else {
             i = 1;
             while (map[indexToBePlaced] != null) {
-                indexToBePlaced = (key.hashCode() + i) % map.length; // ex. if key being inserted is 12 which should go at index 2 but index two but index 2 is full go to next available index
-//                System.out.println("Result of indexToBePlaced at collision: " + indexToBePlaced);
 
-                // resize will occur
-                // here check if indexToBePlaced is bigger than currentSize then double it
-                // create new hashmap of that size and copy everything from the first map to the new one
-                // finally set the old one to be equal to the new one
-                // do this is in a separate function that way this one doesn't get too long
+                // recalculates the node's hash index adding one each time if the next available spot
+                indexToBePlaced = (key.hashCode() + i) % map.length;
 
-//                System.out.println(indexToBePlaced);
-//                System.out.println(map.length);
-//                System.exit(0);
-
-                // resizing once the hashmap has run out of space
+                // if the node's hash index is out of bounds then resizeMap is called
                 if (indexToBePlaced + 1 == map.length) {
-//                    System.out.println("going to resize");
                     resizeMap(map, currentSize);
-//                    System.out.println("YELLO " + currentSize);
-                    //System.exit(0);
-//                    break;
-
                 }
                 i++;
             }
 
+            // node is inserted at the next available spot
             map[indexToBePlaced] = nodeToInsert;
             size++;
         }
 
-//        System.out.println("Result of value after insertion: " + map[indexToBePlaced].value);
         return false;
     }
 
     @Override
     public V find(K key) {
 
+        // loops through the hashmap in search of the node with the key value that is passed in
+        // returns true if it is found and false if not
         for (int i = 0; i < currentSize; i++) {
-            if (map[i] != null) {
-                if (map[i].key.equals(key)) {
-                    return map[i].value;
-                }
+            if (map[i] != null && map[i].key.equals(key)) {
+                return map[i].value;
             }
         }
-
-//        int i = key.hashCode() % map.length;
-//        while (i < currentSize && map[i] != null) {
-//            if (map[i].key.equals(key)) {
-//                return map[i].value;
-//            }
-//            i++;
-//        }
 
         return null;
     }
 
-    // return true when there is an element found that can be deleted
     @Override
     public boolean delete(K key) {
+
+        // loops through the hashmap in search of the node with the key passed in
+        // if found deletes it by setting that index to null and returns true
+        // returns false otherwise
         for (int i = 0; i < currentSize; i++) {
             if (map[i] != null) {
                 if (map[i].key.equals(key)) {
@@ -204,6 +190,7 @@ public class HashMapDict<K,V> implements ProjOneDictionary<K,V> {
                 }
             }
         }
+
         return false;
     }
 
